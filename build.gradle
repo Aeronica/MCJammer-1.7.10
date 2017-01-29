@@ -21,7 +21,7 @@ apply plugin: 'java' // or 'groovy'. Must be explicitly applied
 apply plugin: 'com.github.johnrengelman.shadow'
 
 //Set the mod version, is appended to the end of the jar name
-version = "1.7.10-2016.03.20"
+version = "1.7.10-2017.01.29"
 group = "net.aeronica.mods.mcjammer" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 // Set the jar name as the project root folder name
 archivesBaseName = "mcjammer"
