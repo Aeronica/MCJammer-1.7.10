@@ -23,7 +23,7 @@ public class ItemSheetMusic extends Item implements IMusic{
 		setCreativeTab(MCJammer.TAB_MUSIC);
 		setTextureName(Refs.ITEMS_RESOURCE_LOCATION + name);
 		setUnlocalizedName(type + "." + name);
-		setMaxStackSize(64);
+		setMaxStackSize(16);
 		GameRegistry.registerItem(this, type + "." + name);
 	}
 
@@ -33,7 +33,7 @@ public class ItemSheetMusic extends Item implements IMusic{
 
 		if (world.isRemote) {
 			// Client side
-			if (player.isSneaking() && !is.hasDisplayName()) {
+			if (!is.hasDisplayName()) {
 				player.openGui(MCJammer.instance, GuiMusicBook.GUI_ID, world,
 						(int) player.posX, (int) player.posY, (int) player.posZ);
 			}
