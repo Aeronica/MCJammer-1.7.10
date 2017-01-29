@@ -1,0 +1,75 @@
+buildscript {
+    repositories {
+		jcenter()
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+		classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
+    }
+}
+apply plugin: 'forge'
+apply plugin: 'java' // or 'groovy'. Must be explicitly applied
+apply plugin: 'com.github.johnrengelman.shadow'
+
+//Set the mod version, is appended to the end of the jar name
+version = "1.7.10-2016.03.20"
+group = "net.aeronica.mods.mcjammer" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+// Set the jar name as the project root folder name
+archivesBaseName = "mcjammer"
+
+configurations {
+    shadow
+    compile.extendsFrom shadow
+}
+
+minecraft {
+    version = "1.7.10-10.13.4.1614-1.7.10"
+    // version = "1.7.10-10.13.1.1225"
+    runDir = "run"
+}
+
+dependencies {
+	// Shadow these jars then later we'll use the Shadow plugin to relocate them into our final jar
+	shadow "org.antlr:antlr4-runtime:4.5.2-1" // use ANTLR version 4	
+}
+
+shadowJar {
+	archiveName = tasks.jar.archiveName
+	configurations = [project.configurations.shadow]
+	relocate 'org.antlr.v4.runtime', 'net.aeronica.shadowedlibs.org.antlr.v4.runtime' 
+}
+
+jar {
+    configurations.shadow.each { dep ->
+        from(project.zipTree(dep)){
+            exclude 'META-INF', 'META-INF/**'
+        }
+    }
+}
+jar.dependsOn shadowJar
+jar.enabled = false
+
+processResources
+{
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+		    expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}

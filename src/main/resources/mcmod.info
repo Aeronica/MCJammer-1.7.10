@@ -1,0 +1,19 @@
+[
+{
+  "modid": "MCJammer",
+  "name": "MC Jammer",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "description": "MML Playing and Jamming (mabi)",
+  "credits": "iBuilder99, others",
+  "logoFile": "assets/mcjammer/logo.png",
+  "url": "http://www.aeronica.net",
+  "updateUrl": "",
+  "authorList": ["Aeronica", "MabiBimbie"],
+  "parent":"",
+  "screenshots": [],
+  "dependencies": [
+     "mod_MinecraftForge"
+  ]
+ }
+]
